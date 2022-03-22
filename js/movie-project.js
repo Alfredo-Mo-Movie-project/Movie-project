@@ -1,16 +1,29 @@
-function getAMovies(){
+function getMovies(){
 	fetch('https://toothsome-outgoing-order.glitch.me/movies').then(response => response.json()).then(function (response) {
-
 		document.getElementById('movies').innerHTML = ''
 		response.forEach(function (movie) {
-			$('#movies').html(document.getElementById('movies').innerHTML += `<div>${movie.title}</div><div>${movie.rating}</div>`)
-
+			$('#movies').html(document.getElementById('movies').innerHTML += `<div>${movie.title}</div><div>${movie.rating}</div><div>${movie.id}</div><button id="${movie.id}" type="submit" class="delete">Delete</button>`)
 		})
+	}).then(function (){
+		let deleteOptions = {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		}
 
+		$(`.delete`).click(function (e){
+			e.preventDefault();
+			 const movieID = e.target.id;
+			fetch(`${movieURL}/${movieID}`, deleteOptions).then(getMovies);
+			//location.reload();
+
+
+		});
 	})
 	}
 
-getAMovies()
+getMovies()
 
 
 const movieURL = 'https://toothsome-outgoing-order.glitch.me/movies';
@@ -37,5 +50,32 @@ $('#new-movie-button').click(function (e) {
 		body: JSON.stringify(movieToPost),
 	};
 
-	fetch(movieURL, postOption).then(getAMovies)
+	fetch(movieURL, postOption).then(getMovies)
+})
+
+$('#edit-movie-button').click(function (e) {
+	e.preventDefault()
+
+	let editMovieTitle=$('#title-edit').val();
+
+	let editMovieRating=$('#rating-edit').val();
+
+	let editID=$('#id-number').val();
+
+
+
+	const modification = {
+		title:editMovieTitle ,
+		rating: editMovieRating
+	};
+
+	const putOption = {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+		}  ,
+		body: JSON.stringify(modification),
+	};
+
+	fetch(`${movieURL}/${editID}`, putOption).then(getMovies)
 })

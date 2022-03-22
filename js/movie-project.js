@@ -1,4 +1,4 @@
-function getAMovie(){
+function getAMovies(){
 	fetch('https://toothsome-outgoing-order.glitch.me/movies').then(response => response.json()).then(function (response) {
 
 		document.getElementById('movies').innerHTML = ''
@@ -10,20 +10,32 @@ function getAMovie(){
 	})
 	}
 
-getAMovie()
+getAMovies()
+
 
 const movieURL = 'https://toothsome-outgoing-order.glitch.me/movies';
 
-const movieToPost = {
-	title: 'Lone Survivor',
-	rating: '5'
-}
-const postOption = {
-	method: 'POST',
-	headers: {
-		'Content-Type': 'application/json',
-	}  ,
-	body: JSON.stringify(movieToPost),
-};
-fetch(movieURL, postOption).then(getAMovie)
 
+
+$('#new-movie-button').click(function (e) {
+	e.preventDefault()
+
+	let newMovieTitle=$('#movie-title').val();
+
+	let newMovieRating=$('#rating').val();
+
+	const movieToPost = {
+		title:newMovieTitle ,
+		rating: newMovieRating
+	};
+
+	const postOption = {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		}  ,
+		body: JSON.stringify(movieToPost),
+	};
+
+	fetch(movieURL, postOption).then(getAMovies)
+})

@@ -3,7 +3,7 @@ function getAMovie(){
 
 		document.getElementById('movies').innerHTML = ''
 		response.forEach(function (movie) {
-			$('#movies').html(document.getElementById('movies').innerHTML += `<div>${movie.title}</div>`)
+			$('#movies').html(document.getElementById('movies').innerHTML += `<div>${movie.title}</div><div>${movie.rating}</div>`)
 
 		})
 
@@ -11,4 +11,19 @@ function getAMovie(){
 	}
 
 getAMovie()
+
+const movieURL = 'https://toothsome-outgoing-order.glitch.me/movies';
+
+const movieToPost = {
+	title: 'Lone Survivor',
+	rating: '5'
+}
+const postOption = {
+	method: 'POST',
+	headers: {
+		'Content-Type': 'application/json',
+	}  ,
+	body: JSON.stringify(movieToPost),
+};
+fetch(movieURL, postOption).then(getAMovie)
 

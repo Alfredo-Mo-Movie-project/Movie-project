@@ -2,7 +2,7 @@ function getMovies(){
 	fetch('https://toothsome-outgoing-order.glitch.me/movies').then(response => response.json()).then(function (response) {
 		document.getElementById('movies').innerHTML = ''
 		response.forEach(function (movie) {
-			$('#movies').html(document.getElementById('movies').innerHTML += `<div>${movie.title}</div><div>${movie.rating}</div><div>${movie.id}</div><button id="${movie.id}" type="submit" class="delete">Delete</button>`)
+			$('#movies').html(document.getElementById('movies').innerHTML += `<div class="card"><div>${movie.title}</div><div>${movie.rating}</div><div>${movie.id}</div><button id="${movie.id}" type="submit" class="delete">Delete</button></div>`)
 		})
 	}).then(function (){
 		let deleteOptions = {
